@@ -1,4 +1,3 @@
-import { TwcLogo } from "../assets/logo.jsx";
 import { useDispatch } from "react-redux";
 import { navigateWelcomePage } from "../Slices/homeSlice.jsx";
 import { LoginSchema } from "../Utils/FormValidation.jsx";
@@ -7,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useLoginMutation } from "../Slices/API/actionsApiSlice.js";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SharedLayout1 from "../Layouts/SharedLayout1.jsx";
 
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
@@ -40,17 +40,7 @@ const Login = () => {
   };
   return (
     <div className='login-page-container'>
-      <div id='twc-logo'>
-        <TwcLogo />
-        <section>
-          <p>
-            <span>contacts </span> <br />
-            portal
-          </p>
-        </section>
-      </div>
-      <div className='circular-segment'></div>
-
+      <SharedLayout1 />
       <>
         {/* login */}
         <div className='login-page-body'>
