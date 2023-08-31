@@ -1,19 +1,42 @@
 import { TwcLogo } from "../assets/logo.jsx";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { navigateWelcomePage } from "../Slices/homeSlice.jsx";
+import { LoginSchema } from "../Utils/FormValidation.jsx";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLoginMutation } from "../Slices/API/actionsApiSlice.js";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const [register, setRegister] = useState(false);
+  const [login, { isLoading }] = useLoginMutation();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleRegister = () => {
-    setRegister(true);
-  };
-  const handleLogin = () => {
-    setRegister(false);
+  // form validation
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(LoginSchema) });
+
+  // form Submission
+  const onSubmit = async (inputs) => {
+    const loginDetails = { ...inputs };
+    const { email } = loginDetails;
+    // console.log(loginDetails);
+
+    login(loginDetails)
+      .unwrap()
+      .then((data) => {
+        toast.success(data?.message);
+        dispatch(navigateWelcomePage({ email }));
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.data?.message);
+      });
   };
   return (
     <div className='login-page-container'>
@@ -28,62 +51,48 @@ const Login = () => {
       </div>
       <div className='circular-segment'></div>
 
-      {!register ? (
-        <>
-          {/* login */}
-          <div className='login-page-body'>
-            <section className='head'>
-              <p>
-                <span>Hi there,</span>
-                <br />
-                Welcome to our contacts portal
-              </p>
-            </section>
-            <section className='login'>
-              <input type='email' placeholder='e-mail' />
-              <input type='password' placeholder='password' />
+      <>
+        {/* login */}
+        <div className='login-page-body'>
+          <section className='head'>
+            <p>
+              <span>Hi there,</span>
+              <br />
+              Welcome to our contacts portal
+            </p>
+          </section>
+          <section className='login'>
+            {/* form */}
+            <form action='' onSubmit={handleSubmit(onSubmit)}>
+              {/* email */}
+              <input type='email' placeholder='e-mail' {...register("email")} />
+              <p className='error-text'>{errors.email?.message}</p>
+
+              {/* password */}
+              <input
+                type='password'
+                placeholder='password'
+                {...register("password")}
+              />
+              <p className='error-text'>{errors.password?.message}</p>
+
               <article className='login-btn'>
-                <button
-                  id='login-btn'
-                  onClick={() => {
-                    dispatch(navigateWelcomePage());
-                  }}
-                >
-                  <Link to='/'>login</Link>
+                {/* login button */}
+                <button id='login-btn' disabled={isLoading}>
+                  {isLoading ? "logging In..." : "login"}
                 </button>{" "}
-                or{" "}
-                <button id='register-text' onClick={handleRegister}>
-                  Click here to Register
+                or
+                {/* register link */}
+                <button>
+                  <Link id='register-text' to={`/register`}>
+                    Click here to Register
+                  </Link>
                 </button>
               </article>
-            </section>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Register */}
-          <div className='register-page-body'>
-            <section className='head'>
-              <p>
-                <span>Register Now!</span>
-              </p>
-            </section>
-            <section className='register'>
-              <input type='email' placeholder='e-mail' />
-              <input type='password' placeholder='create password' />
-              <input type='password' placeholder='confirm password' />
-              <article className='register-btn'>
-                <button id='register-btn'>register</button>
-                <br />
-                <button
-                  id='login-text'
-                  onClick={handleLogin}
-                >{`< Back to Login`}</button>
-              </article>
-            </section>
-          </div>
-        </>
-      )}
+            </form>
+          </section>
+        </div>
+      </>
     </div>
   );
 };
