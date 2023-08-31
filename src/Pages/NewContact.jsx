@@ -1,18 +1,18 @@
-import SharedLayout from '../Components/SharedLayout';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addContact } from '../Features/contactSlice';
-import { Link } from 'react-router-dom';
+import SharedLayout from "../Components/SharedLayout";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addContact } from "../Slices/contactSlice";
+import { Link } from "react-router-dom";
 
 const NewContact = () => {
   const dispatch = useDispatch();
 
-  const contactArray = JSON.parse(localStorage.getItem('contactDetails')) || [];
+  const contactArray = JSON.parse(localStorage.getItem("contactDetails")) || [];
   const date = new Date();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [gender, setGender] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
   const [isFirstContact, setIsFirstContact] = useState(contactArray.length < 1);
   const [id, setId] = useState(date.getTime());
 
@@ -22,11 +22,11 @@ const NewContact = () => {
   }, [name]);
 
   const enableSubmit =
-    email.length > 0 && name.length > 0 && phone.length > 0 && gender != '';
+    email.length > 0 && name.length > 0 && phone.length > 0 && gender != "";
 
   const handleSubmit = () => {
     if (contactArray.find((contact) => contact.phone === phone)) {
-      alert('This number is Already in contacts');
+      alert("This number is Already in contacts");
       return;
     } else {
       const contact = {
@@ -38,9 +38,9 @@ const NewContact = () => {
       };
       dispatch(addContact(contact));
 
-      setName('');
-      setEmail('');
-      setPhone('');
+      setName("");
+      setEmail("");
+      setPhone("");
       // setGender('');
       setIsFirstContact(false);
     }
@@ -75,7 +75,7 @@ const NewContact = () => {
             />
           </section>
           <section className='radio'>
-            Gender :{' '}
+            Gender :{" "}
             <input
               type='radio'
               name='gender'

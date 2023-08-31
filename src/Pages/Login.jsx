@@ -1,8 +1,8 @@
-import { TwcLogo } from '../assets/logo.jsx';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { navigateWelcomePage } from '../Features/homeSlice.jsx';
+import { TwcLogo } from "../assets/logo.jsx";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { navigateWelcomePage } from "../Slices/homeSlice.jsx";
 
 const Login = () => {
   const [register, setRegister] = useState(false);
@@ -50,8 +50,8 @@ const Login = () => {
                   }}
                 >
                   <Link to='/'>login</Link>
-                </button>{' '}
-                or{' '}
+                </button>{" "}
+                or{" "}
                 <button id='register-text' onClick={handleRegister}>
                   Click here to Register
                 </button>

@@ -1,35 +1,35 @@
-import { useState } from 'react';
-import { MaleAvatar, FemaleAvatar } from '../assets/avatar';
-import { EditIcon, DeleteIcon, ArrowIcon } from '../assets/icon';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, editContact } from '../Features/contactSlice';
+import { useState } from "react";
+import { MaleAvatar, FemaleAvatar } from "../assets/avatar";
+import { EditIcon, DeleteIcon, ArrowIcon } from "../assets/icon";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteContact, editContact } from "../Slices/contactSlice";
 import {
   OpenSaveModal,
   OpenDeleteModal,
   CloseDeleteModal,
   OpenDeleteSuccessModal,
-} from '../Features/ModalSlice';
+} from "../Slices/ModalSlice";
 
 const SingleContact = ({ id, name, email, phone, index, gender }) => {
   const { isDeleteModalOpen } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
   const [isEditable, setIsEditable] = useState(false);
 
-  const [editName, setEditName] = useState('');
-  const [editEmail, setEditEmail] = useState('');
-  const [editPhone, setEditPhone] = useState('');
-  const [editGender, setEditGender] = useState('');
+  const [editName, setEditName] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editGender, setEditGender] = useState("");
 
   const [Gender, setGender] = useState(gender);
 
   // to enable switching between genders
   const handleSwitchBtn = (g) => {
-    if (g === 'male') {
-      setGender('female');
-      setEditGender('female');
-    } else if (g === 'female') {
-      setGender('male');
-      setEditGender('male');
+    if (g === "male") {
+      setGender("female");
+      setEditGender("female");
+    } else if (g === "female") {
+      setGender("male");
+      setEditGender("male");
     }
   };
 
@@ -91,7 +91,7 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
           <>
             <div className='single-contact'>
               <section className='avatar'>
-                {Gender === 'female' ? <FemaleAvatar /> : <MaleAvatar />}
+                {Gender === "female" ? <FemaleAvatar /> : <MaleAvatar />}
               </section>
               <section className='contact-name-edit'>
                 <input
@@ -138,7 +138,7 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
           <>
             <div className='single-contact'>
               <section className='avatar'>
-                {gender === 'female' ? <FemaleAvatar /> : <MaleAvatar />}
+                {gender === "female" ? <FemaleAvatar /> : <MaleAvatar />}
               </section>
               <section className='contact-name'>{name}</section>
               <section className='contact-gender'>{gender}</section>

@@ -1,5 +1,5 @@
-import { useDispatch } from 'react-redux';
-import { CloseSaveModal } from '../Features/ModalSlice';
+import { useDispatch } from "react-redux";
+import { CloseSaveModal } from "../Slices/ModalSlice";
 const Modal = () => {
   const dispatch = useDispatch();
 

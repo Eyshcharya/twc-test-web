@@ -1,5 +1,5 @@
-import { useDispatch } from 'react-redux';
-import { CloseDeleteSuccessModal } from '../Features/ModalSlice';
+import { useDispatch } from "react-redux";
+import { CloseDeleteSuccessModal } from "../Slices/ModalSlice";
 
 const DeleteModal = () => {
   const dispatch = useDispatch();
