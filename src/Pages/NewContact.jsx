@@ -1,4 +1,4 @@
-import SharedLayout from "../Components/SharedLayout";
+import SharedLayout2 from "../Layouts/SharedLayout2";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addContact } from "../Slices/contactSlice";
@@ -47,7 +47,7 @@ const NewContact = () => {
   };
   return (
     <>
-      <SharedLayout />
+      <SharedLayout2 />
 
       <div className='new-contact-body'>
         <p>

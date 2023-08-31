@@ -1,9 +1,9 @@
-import SharedLayout from '../Components/SharedLayout';
-import SingleContact from '../Components/SingleContact';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import SaveModal from '../Components/SaveModal';
-import DeleteModal from '../Components/DeleteModal';
+import SharedLayout2 from "../Layouts/SharedLayout2";
+import SingleContact from "../Components/SingleContact";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import SaveModal from "../Components/SaveModal";
+import DeleteModal from "../Components/DeleteModal";
 
 const Contacts = () => {
   const { contactArray } = useSelector((store) => store.contact);
@@ -14,7 +14,7 @@ const Contacts = () => {
 
   return (
     <>
-      <SharedLayout />
+      <SharedLayout2 />
       {isSaveModelOpen && <SaveModal />}
       {isDeleteSuccessOpen && <DeleteModal />}
 
