@@ -142,9 +142,11 @@ Login Page
   font-weight: 400;
   font-size: 23px;
 }
-.login-btn,
-.register-btn {
+.login-btn {
   margin-top: 4rem;
+}
+.register-btn {
+  margin-top: 2rem;
 }
 #login-btn,
 #register-btn {
@@ -172,7 +174,7 @@ Login Page
 }
 
 #login-text {
-  margin-top: 7rem;
+  margin-top: 3rem;
   margin-left: 0%;
 }
 .error-text {
