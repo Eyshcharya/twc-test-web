@@ -1,12 +1,12 @@
-@import url('https://fonts.cdnfonts.com/css/futura-md-bt');
-@import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
+@import url("https://fonts.cdnfonts.com/css/futura-md-bt");
+@import url("https://fonts.cdnfonts.com/css/proxima-nova-2");
 /* 
 ----------------------
 Variables
 ----------------------
 */
 :root {
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
 
   line-height: 1.5;
   font-weight: 400;
@@ -33,7 +33,8 @@ body {
 input {
   border: none;
 }
-button {
+button,
+a {
   border: none;
   background: none;
   font-size: inherit;
@@ -44,7 +45,12 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
+button:hover {
+  cursor: pointer;
+}
+a:hover {
+  cursor: pointer;
+}
 input::placeholder {
   color: var(--clr-primary);
   opacity: 0.9;
@@ -123,7 +129,7 @@ Login Page
   width: 477px;
   margin: 1.5rem 0;
   color: var(--clr-primary);
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
   font-weight: 500;
   font-size: 20px;
 }
@@ -169,7 +175,10 @@ Login Page
   margin-top: 7rem;
   margin-left: 0%;
 }
-
+.error-text {
+  color: rgb(251, 121, 78);
+  text-align: center;
+}
 /* 
 ==================
 Shared Layout
@@ -207,7 +216,7 @@ Shared Layout
   width: 30px;
   height: 24px;
   font-size: larger;
-  font-family: 'Proxima Nova', sans-serif;
+  font-family: "Proxima Nova", sans-serif;
   font-weight: bold;
 }
 .shared-layout p {
@@ -304,7 +313,7 @@ new contact page
   border-radius: 50px;
 
   color: var(--clr-primary);
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
   font-weight: 500;
   font-size: 20px;
   min-width: 477px;
@@ -317,7 +326,7 @@ new contact page
   font-size: 20px;
 }
 
-input[type='radio'] {
+input[type="radio"] {
   margin: 0 1rem;
   appearance: none;
   padding: 5px;
@@ -325,7 +334,7 @@ input[type='radio'] {
   border: 1px solid #fff;
   border-radius: 50%;
 }
-input[type='radio']:checked {
+input[type="radio"]:checked {
   background-color: #fff;
 }
 #male {
@@ -442,7 +451,7 @@ single-contact
 }
 
 .single-contact section input {
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
   font-style: normal;
   font-weight: 300;
   font-size: 20px;
