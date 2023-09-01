@@ -24,7 +24,7 @@ export const actionsApiSlice = apiSlice.injectEndpoints({
     logout: builder.mutation({
       query: () => ({
         url: `/`,
-        method: `POST`,
+        method: `PUT`,
       }),
     }),
   }),
