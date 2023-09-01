@@ -14,7 +14,7 @@ const homeSlice = createSlice({
     },
     navigateWelcomePage: (state, { payload }) => {
       state.isLogin = true;
-      state.email = payload;
+      state.email = payload?.email;
     },
     NavigateToLogin: (state) => {
       state.isLogin = false;
