@@ -2,25 +2,32 @@ import { useState } from "react";
 import { MaleAvatar, FemaleAvatar } from "../assets/avatar";
 import { EditIcon, DeleteIcon, ArrowIcon } from "../assets/icon";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteContact, editContact } from "../Slices/contactSlice";
 import {
   OpenSaveModal,
   OpenDeleteModal,
   CloseDeleteModal,
   OpenDeleteSuccessModal,
 } from "../Slices/ModalSlice";
+import {
+  useUpdateContactMutation,
+  useDeleteContactMutation,
+} from "../Slices/API/contactsApiSlice";
+import { toast } from "react-toastify";
 
-const SingleContact = ({ id, name, email, phone, index, gender }) => {
+const SingleContact = ({ _id, name, email, phone, gender }) => {
+  const [updateContact, { isLoading }] = useUpdateContactMutation();
+  const [deleteContact] = useDeleteContactMutation();
   const { isDeleteModalOpen } = useSelector((store) => store.modal);
+  const { userID } = useSelector((store) => store.home);
+
   const dispatch = useDispatch();
   const [isEditable, setIsEditable] = useState(false);
+  const [Gender, setGender] = useState(gender);
 
   const [editName, setEditName] = useState("");
   const [editEmail, setEditEmail] = useState("");
   const [editPhone, setEditPhone] = useState("");
   const [editGender, setEditGender] = useState("");
-
-  const [Gender, setGender] = useState(gender);
 
   // to enable switching between genders
   const handleSwitchBtn = (g) => {
@@ -39,22 +46,40 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
   const handleSaveBtn = () => {
     setIsEditable(false);
     const contact = {
+      contactID: _id,
+      userID: userID,
       name: editName || name,
       email: editEmail || email,
       phone: editPhone || phone,
       gender: editGender || gender,
-      id: id,
-      index: index,
     };
 
-    dispatch(editContact(contact));
-    dispatch(OpenSaveModal());
+    updateContact(contact)
+      .unwrap()
+      .then(() => {
+        dispatch(OpenSaveModal());
+      })
+      .catch((error) => {
+        toast.error(error.data?.message);
+      });
   };
 
   const handleForm = (e) => {
     e.preventDefault();
   };
 
+  const handleDelete = () => {
+    const data = { userID, _id };
+    deleteContact(data)
+      .unwrap()
+      .then(() => {
+        dispatch(CloseDeleteModal());
+        dispatch(OpenDeleteSuccessModal());
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message);
+      });
+  };
   return (
     <>
       {isDeleteModalOpen && (
@@ -67,9 +92,7 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
               <div className='btn-container2'>
                 <button
                   onClick={() => {
-                    dispatch(deleteContact({ id }));
-                    dispatch(CloseDeleteModal());
-                    dispatch(OpenDeleteSuccessModal());
+                    handleDelete();
                   }}
                 >
                   Yes
@@ -90,9 +113,12 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
         {isEditable ? (
           <>
             <div className='single-contact'>
+              {/* avatar */}
               <section className='avatar'>
                 {Gender === "female" ? <FemaleAvatar /> : <MaleAvatar />}
               </section>
+
+              {/* name */}
               <section className='contact-name-edit'>
                 <input
                   type='text'
@@ -100,6 +126,8 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
                   onChange={(e) => setEditName(e.target.value)}
                 />
               </section>
+
+              {/* gender */}
               <section className='contact-gender-edit '>
                 <input type='text' />
                 <div className='gender-switch'>
@@ -113,6 +141,8 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
                   </button>
                 </div>
               </section>
+
+              {/* email */}
               <section className='contact-email-edit '>
                 <input
                   type='email'
@@ -120,6 +150,8 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
                   onChange={(e) => setEditEmail(e.target.value)}
                 />
               </section>
+
+              {/* phone */}
               <section className='contact-phone-edit '>
                 <input
                   type='number'
@@ -129,7 +161,7 @@ const SingleContact = ({ id, name, email, phone, index, gender }) => {
               </section>
               <section className='contact-icon'>
                 <button id='save-btn' onClick={handleSaveBtn}>
-                  save
+                  {isLoading ? "saving" : "save"}
                 </button>
               </section>
             </div>
