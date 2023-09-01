@@ -14,8 +14,8 @@ export const contactsApiSlice = apiSlice.injectEndpoints({
 
     // get contacts
     getContacts: builder.query({
-      query: (body) => ({
-        url: `/contacts`,
+      query: (userID) => ({
+        url: `/contacts/${userID}`,
         method: `GET`,
       }),
       providesTags: ["contact"],
@@ -34,8 +34,18 @@ export const contactsApiSlice = apiSlice.injectEndpoints({
     // update contacts
     updateContact: builder.mutation({
       query: (data) => ({
-        url: `/contacts`,
+        url: `/contacts/${data?.userID}`,
         method: `PATCH`,
+        body: data,
+      }),
+      invalidatesTags: ["contact"],
+    }),
+
+    // delete contacts
+    deleteContact: builder.mutation({
+      query: (data) => ({
+        url: `/contacts/${data?.userID}`,
+        method: `DELETE`,
         body: data,
       }),
       invalidatesTags: ["contact"],
@@ -48,4 +58,5 @@ export const {
   useCreateContactMutation,
   useUpdateContactMutation,
   useGetUserMutation,
+  useDeleteContactMutation,
 } = contactsApiSlice;
