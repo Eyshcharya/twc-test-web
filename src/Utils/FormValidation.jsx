@@ -17,3 +17,13 @@ export const RegisterSchema = yup.object().shape({
     .required(`Confirm the Password`)
     .oneOf([yup.ref("password"), null], "Passwords don't match"),
 });
+
+export const ContactSchema = yup.object().shape({
+  name: yup.string().required(`Full Name is Required`),
+  email: yup.string().email(`Invalid email`).required(`Email is Required`),
+  phone: yup
+    .string()
+    .min(10, `Invalid Phone Number`)
+    .required(`Phone Number is Required`),
+  gender: yup.string().required(`Gender is Required`),
+});
