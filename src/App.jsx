@@ -17,9 +17,9 @@ function App() {
         <Route path='register' element={<Register />} />
 
         <Route path='contacts'>
-          <Route index element={<Contacts />} />
-          <Route path='new' element={<NewContact />} />
+          <Route path=':userID' index element={<Contacts />} />
         </Route>
+        <Route path='contacts/new' element={<NewContact />} />
 
         <Route path='*' element={<Error />} />
       </Routes>
