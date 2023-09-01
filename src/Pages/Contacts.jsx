@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import SaveModal from "../Components/SaveModal";
 import DeleteModal from "../Components/DeleteModal";
+import { useGetContactsQuery } from "../Slices/API/contactsApiSlice";
 
 const Contacts = () => {
-  const { contactArray } = useSelector((store) => store.contact);
-
   const { isSaveModelOpen, isDeleteSuccessOpen } = useSelector(
     (store) => store.modal
   );
+  const { userID } = useSelector((store) => store.home);
+  const { data, isLoading } = useGetContactsQuery(userID);
 
   return (
     <>
@@ -23,9 +24,15 @@ const Contacts = () => {
           <Link to='/contacts/new'>Add new Contact</Link>
         </button>
         <div className='contact-head'>
-          <p>
-            <span>Contacts</span>
-          </p>
+          {isLoading ? (
+            <p>
+              <span>Loading...</span>
+            </p>
+          ) : (
+            <p>
+              <span>Contacts</span>
+            </p>
+          )}
         </div>
 
         <div className='contacts-list'>
@@ -36,9 +43,9 @@ const Contacts = () => {
             <div>E-mail</div>
             <div>Phone Number</div>
           </div>
-          {contactArray.map((contact, index) => {
+          {data?.map((contact, index) => {
             return (
-              <SingleContact key={contact.id} {...contact} index={index} />
+              <SingleContact key={contact._id} {...contact} index={index} />
             );
           })}
         </div>
