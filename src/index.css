@@ -289,7 +289,7 @@ new contact page
 .new-contact-body {
   position: absolute;
   left: 222px;
-  top: 210px;
+  top: 150px;
 }
 .new-contact-body p {
   font-size: 35px;
@@ -322,8 +322,8 @@ new contact page
 }
 .radio {
   position: absolute;
-  top: 219px;
-  left: 554px;
+  top: 227px;
+  left: 670px;
   display: inline;
   font-size: 20px;
 }
@@ -346,16 +346,24 @@ input[type="radio"]:checked {
   margin-left: 6rem;
 }
 #add-contact-btn2 {
-  margin-top: 1rem;
+  margin-top: -3rem;
 }
 .viewContacts-btn {
   position: absolute;
-  top: 330px;
+  top: 230px;
   right: 70px;
 }
 .viewContacts-btn a {
   text-decoration: underline;
   font-size: 18px;
+}
+#form-err {
+  margin-left: 20px;
+  font-size: 15px;
+}
+#radio-err {
+  margin-left: 10px;
+  font-size: 15px;
 }
 /* 
 ===============
