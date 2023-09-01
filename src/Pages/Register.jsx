@@ -1,15 +1,15 @@
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { navigateWelcomePage } from "../Slices/homeSlice.jsx";
-import { LoginSchema } from "../Utils/FormValidation.jsx";
+import { RegisterSchema } from "../Utils/FormValidation.jsx";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLoginMutation } from "../Slices/API/actionsApiSlice.js";
-import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../Slices/API/actionsApiSlice.js";
 import { toast } from "react-toastify";
 import SharedLayout1 from "../Layouts/SharedLayout1.jsx";
 
-const Login = () => {
-  const [login, { isLoading }] = useLoginMutation();
+export const Register = () => {
+  const [reg, { isLoading }] = useRegisterMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,15 +19,16 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(LoginSchema) });
+  } = useForm({ resolver: yupResolver(RegisterSchema) });
 
   // form Submission
   const onSubmit = async (inputs) => {
-    const loginDetails = { ...inputs };
-    const { email } = loginDetails;
-    // console.log(loginDetails);
+    const Inputs = { ...inputs };
+    const { email, password } = Inputs;
+    const userDetails = { email, password };
+    // console.log(userDetails);
 
-    login(loginDetails)
+    reg(userDetails)
       .unwrap()
       .then((data) => {
         toast.success(data?.message);
@@ -42,16 +43,14 @@ const Login = () => {
     <div className='login-page-container'>
       <SharedLayout1 />
       <>
-        {/* login */}
-        <div className='login-page-body'>
+        {/* Register */}
+        <div className='register-page-body'>
           <section className='head'>
             <p>
-              <span>Hi there,</span>
-              <br />
-              Welcome to our contacts portal
+              <span>Register Now!</span>
             </p>
           </section>
-          <section className='login'>
+          <section className='register'>
             {/* form */}
             <form action='' onSubmit={handleSubmit(onSubmit)}>
               {/* email */}
@@ -61,22 +60,28 @@ const Login = () => {
               {/* password */}
               <input
                 type='password'
-                placeholder='password'
+                placeholder='create password'
                 {...register("password")}
               />
               <p className='error-text'>{errors.password?.message}</p>
 
-              <article className='login-btn'>
-                {/* login button */}
-                <button id='login-btn' disabled={isLoading}>
-                  {isLoading ? "logging In..." : "login"}
-                </button>{" "}
-                or
-                {/* register link */}
-                <button>
-                  <Link id='register-text' to={`/register`}>
-                    Click here to Register
-                  </Link>
+              {/* confirm password */}
+              <input
+                type='password'
+                placeholder='confirm password'
+                {...register("confirmPassword")}
+              />
+              <p className='error-text'>{errors.confirmPassword?.message}</p>
+
+              <article className='register-btn'>
+                {/*register button */}
+                <button disabled={isLoading} id='register-btn'>
+                  {isLoading ? "registering..." : "register"}
+                </button>
+                <br />
+                {/* login link */}
+                <button id='login-text'>
+                  <Link to={`/login`}>{`< Back to Login`}</Link>
                 </button>
               </article>
             </form>
@@ -86,4 +91,3 @@ const Login = () => {
     </div>
   );
 };
-export default Login;

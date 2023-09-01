@@ -1,16 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLogin: true,
+  isLogin: false,
+  email: "",
+  userID: "",
 };
 const homeSlice = createSlice({
-  name: 'home',
+  name: "home",
   initialState,
   reducers: {
-    navigateWelcomePage: (state) => {
+    setUserID: (state, { payload }) => {
+      state.userID = payload;
+    },
+    navigateWelcomePage: (state, { payload }) => {
+      state.isLogin = true;
+      state.email = payload?.email;
+    },
+    NavigateToLogin: (state) => {
       state.isLogin = false;
+      state.email = null;
+      state.userID = null;
     },
   },
 });
-export const { navigateWelcomePage } = homeSlice.actions;
+export const { setUserID, navigateWelcomePage, NavigateToLogin } =
+  homeSlice.actions;
 export default homeSlice.reducer;

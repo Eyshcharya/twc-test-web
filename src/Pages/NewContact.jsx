@@ -1,87 +1,86 @@
-import SharedLayout from "../Components/SharedLayout";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addContact } from "../Slices/contactSlice";
-import { Link } from "react-router-dom";
-
+import SharedLayout2 from "../Layouts/SharedLayout2";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { ContactSchema } from "../Utils/FormValidation";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useCreateContactMutation } from "../Slices/API/contactsApiSlice";
 const NewContact = () => {
-  const dispatch = useDispatch();
+  const { userID } = useSelector((store) => store.home);
+  const [createContact, { isLoading }] = useCreateContactMutation();
+  const navigate = useNavigate();
+  // form validation
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(ContactSchema) });
 
-  const contactArray = JSON.parse(localStorage.getItem("contactDetails")) || [];
-  const date = new Date();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("");
-  const [isFirstContact, setIsFirstContact] = useState(contactArray.length < 1);
-  const [id, setId] = useState(date.getTime());
+  // form Submission
+  const onSubmit = async (inputs) => {
+    const contactDetails = { ...inputs, _id: userID };
 
-  // generating Id
-  useEffect(() => {
-    setId(date.getTime());
-  }, [name]);
-
-  const enableSubmit =
-    email.length > 0 && name.length > 0 && phone.length > 0 && gender != "";
-
-  const handleSubmit = () => {
-    if (contactArray.find((contact) => contact.phone === phone)) {
-      alert("This number is Already in contacts");
-      return;
-    } else {
-      const contact = {
-        name: name,
-        email: email,
-        phone: phone,
-        gender: gender,
-        id: id,
-      };
-      dispatch(addContact(contact));
-
-      setName("");
-      setEmail("");
-      setPhone("");
-      // setGender('');
-      setIsFirstContact(false);
-    }
+    createContact(contactDetails)
+      .unwrap()
+      .then((data) => {
+        toast.success(data?.message);
+        navigate(`/contacts/${userID}`);
+      })
+      .catch((error) => {
+        toast.error(error.data?.message);
+      });
   };
+
   return (
     <>
-      <SharedLayout />
+      <SharedLayout2 />
 
       <div className='new-contact-body'>
         <p>
           <span>New Contact</span>
         </p>
-        <form action=''>
+        {/* form */}
+        <form action='' onSubmit={handleSubmit(onSubmit)}>
           <section className='add-contact'>
-            <input
-              type='text'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder='full name'
-            />
-            <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder='e-mail'
-            />
-            <input
-              type='phoneNumber'
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder='phone number'
-            />
+            {/* full name */}
+            <div>
+              <input
+                type='text'
+                name='name'
+                placeholder='full name'
+                {...register("name")}
+              />
+              <p id='form-err'>{errors.name?.message}</p>
+            </div>
+
+            {/* email */}
+            <div>
+              <input type='email' placeholder='e-mail' {...register("email")} />
+              <p id='form-err'>{errors.email?.message}</p>
+            </div>
+
+            {/* phone */}
+            <div>
+              <input
+                type='text'
+                name='phone'
+                placeholder='phone number'
+                {...register("phone")}
+              />
+              <p id='form-err'>{errors.phone?.message}</p>
+            </div>
           </section>
+
+          {/* gender */}
           <section className='radio'>
-            Gender :{" "}
+            Gender :
             <input
               type='radio'
               name='gender'
               value='male'
               id='male'
-              onChange={(e) => setGender(e.target.value)}
+              {...register("gender")}
             />
             <label htmlFor='male'>Male</label>
             <input
@@ -89,28 +88,18 @@ const NewContact = () => {
               name='gender'
               value='female'
               id='female'
-              onChange={(e) => setGender(e.target.value)}
+              {...register("gender")}
             />
             <label htmlFor='female'>Female</label>
+            <p id='radio-err'>{errors.gender?.message}</p>
           </section>
-          <button
-            type='submit'
-            disabled={!enableSubmit}
-            onClick={handleSubmit}
-            id='add-contact-btn2'
-          >
-            {isFirstContact ? (
-              <Link> Add your first contact</Link>
-            ) : (
-              <Link>Add a New Contact</Link>
-            )}
+          <button type='submit' disabled={isLoading} id='add-contact-btn2'>
+            {isLoading ? "Adding" : "Add Contact"}
           </button>
 
-          {isFirstContact ? null : (
-            <button className='viewContacts-btn'>
-              <Link to='/contacts'> {`View Contacts >`} </Link>
-            </button>
-          )}
+          <button className='viewContacts-btn'>
+            <Link to={`/contacts/${userID}`}> {`View Contacts >`} </Link>
+          </button>
         </form>
       </div>
     </>

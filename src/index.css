@@ -1,12 +1,12 @@
-@import url('https://fonts.cdnfonts.com/css/futura-md-bt');
-@import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
+@import url("https://fonts.cdnfonts.com/css/futura-md-bt");
+@import url("https://fonts.cdnfonts.com/css/proxima-nova-2");
 /* 
 ----------------------
 Variables
 ----------------------
 */
 :root {
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
 
   line-height: 1.5;
   font-weight: 400;
@@ -33,7 +33,8 @@ body {
 input {
   border: none;
 }
-button {
+button,
+a {
   border: none;
   background: none;
   font-size: inherit;
@@ -44,7 +45,12 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
+button:hover {
+  cursor: pointer;
+}
+a:hover {
+  cursor: pointer;
+}
 input::placeholder {
   color: var(--clr-primary);
   opacity: 0.9;
@@ -123,7 +129,7 @@ Login Page
   width: 477px;
   margin: 1.5rem 0;
   color: var(--clr-primary);
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
   font-weight: 500;
   font-size: 20px;
 }
@@ -136,9 +142,11 @@ Login Page
   font-weight: 400;
   font-size: 23px;
 }
-.login-btn,
-.register-btn {
+.login-btn {
   margin-top: 4rem;
+}
+.register-btn {
+  margin-top: 2rem;
 }
 #login-btn,
 #register-btn {
@@ -166,10 +174,13 @@ Login Page
 }
 
 #login-text {
-  margin-top: 7rem;
+  margin-top: 3rem;
   margin-left: 0%;
 }
-
+.error-text {
+  color: rgb(251, 121, 78);
+  text-align: center;
+}
 /* 
 ==================
 Shared Layout
@@ -207,7 +218,7 @@ Shared Layout
   width: 30px;
   height: 24px;
   font-size: larger;
-  font-family: 'Proxima Nova', sans-serif;
+  font-family: "Proxima Nova", sans-serif;
   font-weight: bold;
 }
 .shared-layout p {
@@ -278,7 +289,7 @@ new contact page
 .new-contact-body {
   position: absolute;
   left: 222px;
-  top: 210px;
+  top: 150px;
 }
 .new-contact-body p {
   font-size: 35px;
@@ -304,20 +315,20 @@ new contact page
   border-radius: 50px;
 
   color: var(--clr-primary);
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
   font-weight: 500;
   font-size: 20px;
   min-width: 477px;
 }
 .radio {
   position: absolute;
-  top: 219px;
-  left: 554px;
+  top: 227px;
+  left: 670px;
   display: inline;
   font-size: 20px;
 }
 
-input[type='radio'] {
+input[type="radio"] {
   margin: 0 1rem;
   appearance: none;
   padding: 5px;
@@ -325,7 +336,7 @@ input[type='radio'] {
   border: 1px solid #fff;
   border-radius: 50%;
 }
-input[type='radio']:checked {
+input[type="radio"]:checked {
   background-color: #fff;
 }
 #male {
@@ -335,16 +346,26 @@ input[type='radio']:checked {
   margin-left: 6rem;
 }
 #add-contact-btn2 {
-  margin-top: 1rem;
+  margin-top: -3rem;
 }
 .viewContacts-btn {
   position: absolute;
-  top: 330px;
-  right: 70px;
+  top: 45px;
+  right: 200px;
 }
 .viewContacts-btn a {
   text-decoration: underline;
   font-size: 18px;
+}
+#form-err {
+  margin-left: 20px;
+  font-size: 15px;
+  color: rgb(251, 121, 78);
+}
+#radio-err {
+  margin-left: 10px;
+  font-size: 15px;
+  color: rgb(251, 121, 78);
 }
 /* 
 ===============
@@ -442,7 +463,7 @@ single-contact
 }
 
 .single-contact section input {
-  font-family: 'Futura Md BT', sans-serif;
+  font-family: "Futura Md BT", sans-serif;
   font-style: normal;
   font-weight: 300;
   font-size: 20px;
