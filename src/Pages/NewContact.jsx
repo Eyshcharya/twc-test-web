@@ -1,5 +1,5 @@
 import SharedLayout2 from "../Layouts/SharedLayout2";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ContactSchema } from "../Utils/FormValidation";
 import { toast } from "react-toastify";
@@ -9,7 +9,6 @@ import { useCreateContactMutation } from "../Slices/API/contactsApiSlice";
 const NewContact = () => {
   const { userID } = useSelector((store) => store.home);
   const [createContact, { isLoading }] = useCreateContactMutation();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   // form validation
   const {
@@ -96,6 +95,10 @@ const NewContact = () => {
           </section>
           <button type='submit' disabled={isLoading} id='add-contact-btn2'>
             {isLoading ? "Adding" : "Add Contact"}
+          </button>
+
+          <button className='viewContacts-btn'>
+            <Link to={`/contacts/${userID}`}> {`View Contacts >`} </Link>
           </button>
         </form>
       </div>
