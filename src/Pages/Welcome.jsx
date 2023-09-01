@@ -23,7 +23,8 @@ const Welcome = () => {
   }, [isLogin]);
 
   const getUser = async () => {
-    User(email)
+    const data = { email };
+    User(data)
       .unwrap()
       .then((data) => {
         setUser(data);
