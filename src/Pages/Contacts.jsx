@@ -1,17 +1,26 @@
 import SharedLayout2 from "../Layouts/SharedLayout2";
 import SingleContact from "../Components/SingleContact";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import SaveModal from "../Components/SaveModal";
 import DeleteModal from "../Components/DeleteModal";
 import { useGetContactsQuery } from "../Slices/API/contactsApiSlice";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
+import { useEffect } from "react";
 
 const Contacts = () => {
-  const { isSaveModelOpen, isDeleteSuccessOpen, isDeleteModalOpen } =
-    useSelector((store) => store.modal);
-  const { userID } = useSelector((store) => store.home);
+  const { isSaveModelOpen, isDeleteSuccessOpen } = useSelector(
+    (store) => store.modal
+  );
+  const { userID, isLogin } = useSelector((store) => store.home);
   const { data, isLoading } = useGetContactsQuery(userID);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLogin) {
+      navigate(`/login`);
+    }
+  }, [isLogin]);
 
   return (
     <>
