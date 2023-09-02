@@ -20,6 +20,8 @@ https://gitfront.io/r/user-3709793/uijVSoX7b34o/Ifonix/tree/Frontend/src/
 The frontend will be available at http://localhost:5173.
 
 ### Login Credentials to an existing account ;
+
 email: humpty@eggshell.com
+
 password: humptydumpty
 
