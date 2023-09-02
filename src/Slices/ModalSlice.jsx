@@ -1,12 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isSaveModelOpen: false,
   isDeleteModalOpen: false,
   isDeleteSuccessOpen: false,
+  contactData: {},
 };
 const modalSlice = createSlice({
-  name: 'modal',
+  name: "modal",
   initialState,
   reducers: {
     OpenSaveModal: (state) => {
@@ -15,8 +16,9 @@ const modalSlice = createSlice({
     CloseSaveModal: (state) => {
       state.isSaveModelOpen = false;
     },
-    OpenDeleteModal: (state) => {
+    OpenDeleteModal: (state, { payload }) => {
       state.isDeleteModalOpen = true;
+      state.contactData = payload;
     },
     CloseDeleteModal: (state) => {
       state.isDeleteModalOpen = false;

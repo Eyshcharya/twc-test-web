@@ -2,21 +2,12 @@ import { useState } from "react";
 import { MaleAvatar, FemaleAvatar } from "../assets/avatar";
 import { EditIcon, DeleteIcon, ArrowIcon } from "../assets/icon";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  OpenSaveModal,
-  OpenDeleteModal,
-  CloseDeleteModal,
-  OpenDeleteSuccessModal,
-} from "../Slices/ModalSlice";
-import {
-  useUpdateContactMutation,
-  useDeleteContactMutation,
-} from "../Slices/API/contactsApiSlice";
+import { OpenSaveModal, OpenDeleteModal } from "../Slices/ModalSlice";
+import { useUpdateContactMutation } from "../Slices/API/contactsApiSlice";
 import { toast } from "react-toastify";
 
 const SingleContact = ({ _id, name, email, phone, gender }) => {
   const [updateContact, { isLoading }] = useUpdateContactMutation();
-  const [deleteContact] = useDeleteContactMutation();
   const { isDeleteModalOpen } = useSelector((store) => store.modal);
   const { userID } = useSelector((store) => store.home);
 
@@ -40,9 +31,12 @@ const SingleContact = ({ _id, name, email, phone, gender }) => {
     }
   };
 
+  // handle edit button(Enable editing)
   const handleEditBtn = () => {
     setIsEditable(true);
   };
+
+  // handle save button (saving the edited content)
   const handleSaveBtn = () => {
     setIsEditable(false);
     const contact = {
@@ -64,51 +58,13 @@ const SingleContact = ({ _id, name, email, phone, gender }) => {
       });
   };
 
+  // handle Form submission
   const handleForm = (e) => {
     e.preventDefault();
   };
 
-  const handleDelete = () => {
-    const data = { userID, _id };
-    deleteContact(data)
-      .unwrap()
-      .then(() => {
-        dispatch(CloseDeleteModal());
-        dispatch(OpenDeleteSuccessModal());
-      })
-      .catch((error) => {
-        toast.error(error?.data?.message);
-      });
-  };
   return (
     <>
-      {isDeleteModalOpen && (
-        <>
-          <aside className='modal-container'>
-            <div className='modal'>
-              <div className='message'>
-                {`Do you want to delete the contact "${name}" ? `}
-              </div>
-              <div className='btn-container2'>
-                <button
-                  onClick={() => {
-                    handleDelete();
-                  }}
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={() => {
-                    dispatch(CloseDeleteModal());
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </aside>
-        </>
-      )}
       <form action='' onSubmit={handleForm}>
         {isEditable ? (
           <>
@@ -182,7 +138,7 @@ const SingleContact = ({ _id, name, email, phone, gender }) => {
                 </button>
                 <button
                   onClick={() => {
-                    dispatch(OpenDeleteModal());
+                    dispatch(OpenDeleteModal({ name, _id, userID }));
                   }}
                 >
                   <DeleteIcon />

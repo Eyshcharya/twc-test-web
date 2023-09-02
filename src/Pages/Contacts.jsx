@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import SaveModal from "../Components/SaveModal";
 import DeleteModal from "../Components/DeleteModal";
 import { useGetContactsQuery } from "../Slices/API/contactsApiSlice";
+import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import { useEffect } from "react";
 
 const Contacts = () => {
@@ -26,6 +27,7 @@ const Contacts = () => {
       <SharedLayout2 />
       {isSaveModelOpen && <SaveModal />}
       {isDeleteSuccessOpen && <DeleteModal />}
+      {isDeleteModalOpen && <ConfirmDeleteModal />}
 
       <div className='contacts-page'>
         <button id='add-contact-btn3'>
@@ -43,20 +45,26 @@ const Contacts = () => {
           )}
         </div>
 
-        <div className='contacts-list'>
-          <div className='list-head'>
-            <div> </div>
-            <div>Full Name</div>
-            <div>Gender</div>
-            <div>E-mail</div>
-            <div>Phone Number</div>
+        {data?.length == 0 ? (
+          <div id='empty-contact'>
+            <h1>No Contacts</h1>
           </div>
-          {data?.map((contact, index) => {
-            return (
-              <SingleContact key={contact._id} {...contact} index={index} />
-            );
-          })}
-        </div>
+        ) : (
+          <div className='contacts-list'>
+            <div className='list-head'>
+              <div> </div>
+              <div>Full Name</div>
+              <div>Gender</div>
+              <div>E-mail</div>
+              <div>Phone Number</div>
+            </div>
+            {data?.map((contact, index) => {
+              return (
+                <SingleContact key={contact._id} {...contact} index={index} />
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );
