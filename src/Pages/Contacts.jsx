@@ -9,9 +9,8 @@ import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import { useEffect } from "react";
 
 const Contacts = () => {
-  const { isSaveModelOpen, isDeleteSuccessOpen } = useSelector(
-    (store) => store.modal
-  );
+  const { isSaveModelOpen, isDeleteSuccessOpen, isDeleteModalOpen } =
+    useSelector((store) => store.modal);
   const { userID, isLogin } = useSelector((store) => store.home);
   const { data, isLoading } = useGetContactsQuery(userID);
   const navigate = useNavigate();
