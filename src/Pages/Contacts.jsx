@@ -18,8 +18,6 @@ const Contacts = () => {
   useEffect(() => {
     if (!isLogin) {
       navigate(`/login`);
-    } else {
-      getUser();
     }
   }, [isLogin]);
 
